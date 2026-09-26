@@ -573,6 +573,88 @@ def load_previous():
 
 # ---------------------------------------------------------------- main
 
+# ---------------------------------------------------------------- commodity markets
+
+ENERGY = [
+    ("wti", "WTI crude", "DCOILWTICO", "$/bbl"),
+    ("brent", "Brent crude", "DCOILBRENTEU", "$/bbl"),
+    ("hh", "Henry Hub natural gas", "DHHNGSP", "$/MMBtu"),
+    ("gasoline", "US regular gasoline", "GASREGW", "$/gal"),
+    ("diesel", "US on-highway diesel", "GASDESW", "$/gal"),
+]
+COT_MARKETS = [
+    ("wti", "WTI crude", "Energy", "067651"),
+    ("natgas", "Natural gas", "Energy", "023651"),
+    ("gold", "Gold", "Metals", "088691"),
+    ("silver", "Silver", "Metals", "084691"),
+    ("copper", "Copper", "Metals", "085692"),
+    ("corn", "Corn", "Agriculture", "002602"),
+    ("wheat", "Wheat (SRW)", "Agriculture", "001602"),
+    ("soy", "Soybeans", "Agriculture", "005602"),
+]
+
+
+def cftc_disagg() -> list[dict]:
+    if FIX:
+        return json.loads(_fixture("cftc_disagg.json"))
+    codes = ",".join(f"'{c}'" for *_, c in COT_MARKETS)
+    since = (TODAY - timedelta(days=365 * 3 + 14)).isoformat()
+    return json.loads(http_get("https://publicreporting.cftc.gov/resource/72hh-3qpy.json", {
+        "$select": "cftc_contract_market_code,market_and_exchange_names,report_date_as_yyyy_mm_dd,"
+                   "open_interest_all,m_money_positions_long_all,m_money_positions_short_all",
+        "$where": f"cftc_contract_market_code in({codes}) AND report_date_as_yyyy_mm_dd >= '{since}'",
+        "$order": "report_date_as_yyyy_mm_dd ASC",
+        "$limit": "5000",
+    }))
+
+
+def markets():
+    energy = []
+    for key, name, series, unit in ENERGY:
+        try:
+            obs = fred(series, years=2)
+            d, v = obs[-1]
+
+            def chg(days):
+                p = value_at_or_before(obs, d - timedelta(days=days))
+                return round(pct(v, p[1]), 1) if p else None
+            energy.append(dict(key=key, name=name, unit=unit, value=round(v, 3), asOf=d.isoformat(),
+                               chg_1m=chg(30), chg_1y=chg(365), history=history(obs, years=1, max_points=180),
+                               source=f"US EIA via FRED ({series})"))
+        except Exception as e:
+            log(f"[energy {key}] failed: {e}")
+    positioning = []
+    try:
+        rows = cftc_disagg()
+        by = {}
+        for r in rows:
+            try:
+                oi = float(r["open_interest_all"])
+                net = float(r["m_money_positions_long_all"]) - float(r["m_money_positions_short_all"])
+                d = date.fromisoformat(r["report_date_as_yyyy_mm_dd"][:10])
+            except (KeyError, ValueError, TypeError):
+                continue
+            if oi <= 0:
+                continue
+            by.setdefault(r["cftc_contract_market_code"], []).append((d, net, net / oi * 100))
+        for key, name, group, code in COT_MARKETS:
+            xs = sorted(by.get(code, []))
+            if len(xs) < 10:
+                continue
+            d, net, share = xs[-1]
+            window = [x[2] for x in xs]
+            rank = sum(1 for x in window if x <= share) / len(window) * 100
+            wk = xs[-2][1] if len(xs) > 1 else net
+            positioning.append(dict(key=key, name=name, group=group, asOf=d.isoformat(), net=round(net),
+                                    net_pct_oi=round(share, 1), pctile_3y=round(rank), chg_1w=round(net - wk),
+                                    history=[[a.isoformat(), round(c, 2)] for a, _, c in xs if a >= d - timedelta(days=730)]))
+    except Exception as e:
+        log(f"[positioning] failed: {e}")
+    if not energy and not positioning:
+        raise RuntimeError("no market data")
+    return dict(energy=energy, positioning=positioning)
+
+
 def main() -> int:
     prev = load_previous()
     prev_by = {x["id"]: x for x in (prev or {}).get("indicators", [])}
@@ -629,6 +711,12 @@ def main() -> int:
         log(f"charts failed: {e}")
         charts = (prev or {}).get("charts")
 
+    try:
+        mkts = markets()
+    except Exception as e:
+        log(f"markets failed: {e}")
+        mkts = (prev or {}).get("markets")
+
     counts = {k: sum(1 for x in out if x["status"] == k) for k in ("bear", "watch", "bull", "na")}
     payload = dict(
         site=CFG["site"]["name"],
@@ -638,6 +726,7 @@ def main() -> int:
         indicators=out,
         changes=changes,
         charts=charts,
+        markets=mkts,
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))

@@ -1,0 +1,51 @@
+<!--{"path": "monitor/", "title": "Macro Monitor", "description": "A live board of 56 indicators scoring US macro conditions: valuation, leverage, rates, credit, earnings, sentiment and flows, with margin debt history since 1997.", "nav": "monitor", "page": "monitor", "charts": true}-->
+<section class="page-head">
+  <div class="container">
+    <p class="crumbs">Live data · Macro Monitor</p>
+    <h1 id="headline">Is the market set up for a correction?</h1>
+    <p class="lead">A live read on the conditions that make a decline possible and the triggers that usually set one off. Each indicator is scored as pointing to downside risk, borderline, or supportive, and each row shows its source and date.</p>
+    <p class="meta" id="updated">Loading the latest data…</p>
+  </div>
+</section>
+
+<section class="section tight" style="padding-top:0;border-top:0">
+  <div class="container" style="display:grid;gap:26px">
+    <div class="regime" id="summary-cards"></div>
+
+    <div class="panel" id="changes-panel" hidden>
+      <div class="panel-h"><h2>What changed</h2><span class="meta" id="changes-meta"></span></div>
+      <ul class="changes" id="changes"></ul>
+    </div>
+
+    <div class="panel" id="margin">
+      <div class="panel-h"><h2 id="margin-title">Margin debt history</h2><span class="meta" id="margin-meta"></span></div>
+      <p class="meta" style="font-size:14px;max-width:74ch">Customer debit balances in securities margin accounts at FINRA member firms. Borrowing tends to peak near market tops, as in 2000, 2007 and 2021, and falls quickly in selloffs.</p>
+      <div class="tabs" role="tablist" aria-label="Margin debt views">
+        <button role="tab" aria-selected="true" data-view="level">Balance ($bn)</button>
+        <button role="tab" aria-selected="false" data-view="yoy">Year-over-year %</button>
+        <button role="tab" aria-selected="false" data-view="gdp">% of GDP</button>
+        <button role="tab" aria-selected="false" data-view="cash">Cash cushion %</button>
+      </div>
+      <div class="chart"><canvas id="margin-chart" role="img" aria-label="Margin debt chart"></canvas></div>
+      <p class="meta" id="margin-caption"></p>
+    </div>
+
+    <div class="controls" role="group" aria-label="Filter indicators" id="board">
+      <button class="chip" data-f="all" aria-pressed="true">All</button>
+      <button class="chip" data-f="bear" aria-pressed="false">Downside risk</button>
+      <button class="chip" data-f="watch" aria-pressed="false">Borderline</button>
+      <button class="chip" data-f="bull" aria-pressed="false">Supportive</button>
+      <button class="chip" data-f="na" aria-pressed="false">Not tracked</button>
+      <span class="spacer"></span>
+      <label class="toggle"><input type="checkbox" id="auto-only"> Live data only</label>
+    </div>
+
+    <div id="groups" class="groups"></div>
+
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card"><h3>Conditions, triggers and flows</h3><p>Conditions (valuation, leverage) show how far markets could fall. Triggers (rates, credit, earnings, breadth) tend to decide when a decline starts. Flows show who is buying and selling.</p></div>
+      <div class="card"><h3>Live and analyst readings</h3><p>Rows tagged <span class="tag live">Live</span> update automatically from official sources. <span class="tag">Analyst</span> rows are reviewed by hand and dated on each row.</p></div>
+      <div class="card"><h3>Status-only rows</h3><p>Some inputs come from licensed data providers. For those rows we publish our assessment and commentary, not the provider's figures.</p></div>
+    </div>
+  </div>
+</section>

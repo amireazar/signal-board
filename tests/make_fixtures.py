@@ -79,3 +79,26 @@ for i in range(160):
                  "lev_money_positions_long": "161176", "lev_money_positions_short": "454319"})
 (OUT / "cftc.json").write_text(json.dumps(cftc))
 print("fixtures written")
+
+# energy (synthetic histories ending at recent observed levels)
+fred("DCOILBRENTEU", walk(99.8, 800, 1.2, 1, floor=40))
+fred("DHHNGSP", walk(3.42, 800, 0.08, 1, floor=1.5))
+fred("GASREGW", walk(3.98, 110, 0.04, 7, floor=2))
+fred("GASDESW", walk(4.61, 110, 0.05, 7, floor=2))
+
+# CFTC disaggregated (synthetic)
+markets = {"067651": (1841811, 101828), "023651": (1837146, -65547), "088691": (412800, 127389), "084691": (160000, 30000),
+           "085692": (230000, 25000), "002602": (1500000, -120000), "001602": (420000, -60000), "005602": (800000, 40000)}
+dis = []
+for code, (oi, net_end) in markets.items():
+    net = net_end
+    for i in range(160):
+        d = END - timedelta(days=7 * i + 1)
+        long_ = max(0, 200000 + net) if net > 0 else 200000
+        short = long_ - net
+        dis.append({"cftc_contract_market_code": code, "market_and_exchange_names": code,
+                    "report_date_as_yyyy_mm_dd": d.isoformat() + "T00:00:00.000", "open_interest_all": str(oi),
+                    "m_money_positions_long_all": str(long_), "m_money_positions_short_all": str(short)})
+        net = net - random.gauss(0, oi * 0.01)
+(OUT / "cftc_disagg.json").write_text(json.dumps(dis))
+print("market fixtures written")

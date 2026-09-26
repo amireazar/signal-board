@@ -1,0 +1,129 @@
+<!--{"path": "", "title": "AI analytics for macroeconomics and commodity futures", "description": "Analytica Horizon Technology builds AI-driven analytics for macroeconomics and commodity futures: a live macro monitor, commodity positioning analytics, research and data feeds. Based in ADGM, Abu Dhabi.", "nav": "home", "page": "home"}-->
+<section class="hero">
+  <div class="container">
+    <div class="hero-copy">
+      <p class="eyebrow">Abu Dhabi · ADGM</p>
+      <h1>Macro and commodity intelligence, computed continuously.</h1>
+      <p class="lead">We turn central-bank, Treasury, energy and futures-market data into a live read on economic conditions and commodity positioning. Our models do the scanning; our analysts check the conclusions.</p>
+      <div class="hero-ctas">
+        <a class="btn primary" href="{{root}}contact/">Request a platform demo</a>
+        <a class="btn" href="{{root}}monitor/">Open the live Macro Monitor</a>
+      </div>
+      <div class="hero-meta" id="hero-meta">
+        <span><b>56</b> indicators scored</span>
+        <span><b>8</b> futures markets tracked</span>
+        <span><b>30 min</b> refresh cycle</span>
+      </div>
+    </div>
+    <figure class="pulse-wrap" id="pulse" aria-label="Macro Pulse: every indicator on the Macro Monitor, colored by its current reading">
+      <div class="pulse-center"><span class="k">Macro Pulse</span><span class="v" id="pulse-verdict">Loading</span><span class="s" id="pulse-sub">Reading 56 indicators</span></div>
+    </figure>
+  </div>
+</section>
+
+<section class="section tight" aria-labelledby="now-h">
+  <div class="container">
+    <div class="section-head row">
+      <div>
+        <p class="eyebrow">Live now</p>
+        <h2 id="now-h">Where the economy stands today</h2>
+      </div>
+      <a class="btn small" href="{{root}}monitor/">All 56 indicators</a>
+    </div>
+    <div class="tiles" id="home-tiles"></div>
+    <div class="legend" style="margin-top:16px">
+      <span><i class="st-bear"></i>Points to downside risk</span>
+      <span><i class="st-watch"></i>Borderline</span>
+      <span><i class="st-bull"></i>Supportive</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="regime-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Regime read</p>
+      <h2 id="regime-h">Conditions, triggers and flows</h2>
+      <p>Every indicator is assigned a role. Conditions show how far markets could fall. Triggers tend to decide when. Flows show who is buying and who is selling.</p>
+    </div>
+    <div class="regime" id="home-regime"></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="cmd-h">
+  <div class="container">
+    <div class="section-head row">
+      <div>
+        <p class="eyebrow">Commodity futures</p>
+        <h2 id="cmd-h">Energy prices and speculative positioning</h2>
+        <p style="margin-top:12px">Spot energy prices from the US Energy Information Administration, and managed-money positioning from the CFTC's weekly Commitments of Traders report.</p>
+      </div>
+      <a class="btn small" href="{{root}}commodities/">Commodities dashboard</a>
+    </div>
+    <div class="tiles" id="home-energy" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))"></div>
+    <div class="pos" id="home-pos" style="margin-top:20px"></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="sol-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Solutions</p>
+      <h2 id="sol-h">Four ways to work with us</h2>
+    </div>
+    <div class="grid g4">
+      <article class="card">
+        <span class="tagline">Platform</span>
+        <h3>AI analytics platform</h3>
+        <p>Dashboards, regime scoring and positioning analytics across macro and commodity futures, with alerts when conditions change.</p>
+        <a class="more" href="{{root}}solutions/#platform">Platform</a>
+      </article>
+      <article class="card">
+        <span class="tagline">Research</span>
+        <h3>Research subscriptions</h3>
+        <p>Weekly macro and commodities outlooks that explain what the data is showing and why it matters.</p>
+        <a class="more" href="{{root}}solutions/#research">Research</a>
+      </article>
+      <article class="card">
+        <span class="tagline">Data</span>
+        <h3>Data and API</h3>
+        <p>Clean, versioned indicator series and model outputs delivered as JSON feeds for your own systems.</p>
+        <a class="more" href="{{root}}solutions/#data">Data and API</a>
+      </article>
+      <article class="card">
+        <span class="tagline">Engagements</span>
+        <h3>Institutional analytics</h3>
+        <p>Custom models, dashboards and data pipelines built for funds, trading desks and corporate treasury teams.</p>
+        <a class="more" href="{{root}}solutions/#engagements">Engagements</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="how-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-h">From raw releases to a scored view of the market</h2>
+    </div>
+    <div class="pipeline">
+      <div class="step"><span class="k">01 Ingest</span><h3>Official sources</h3><p>Federal Reserve, US Treasury, BLS, EIA, CFTC and FINRA releases, pulled as they publish.</p><span class="stat" id="st-live">20 live series</span></div>
+      <div class="step"><span class="k">02 Clean</span><h3>Normalize</h3><p>Align frequencies and release dates, handle revisions, and keep every value traceable to its source.</p><span class="stat">Daily to quarterly</span></div>
+      <div class="step"><span class="k">03 Model</span><h3>Score and detect</h3><p>Threshold, percentile and trend models score each indicator and flag regime shifts.</p><span class="stat">56 indicators</span></div>
+      <div class="step"><span class="k">04 Review</span><h3>Analyst check</h3><p>Analysts review model output and add readings the public data can't capture.</p><span class="stat">36 analyst readings</span></div>
+      <div class="step"><span class="k">05 Deliver</span><h3>Publish</h3><p>Dashboards, alerts, research notes and data feeds, refreshed on a 30-minute cycle.</p><span class="stat" id="st-updated">Updated —</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section tight">
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2>See the full platform on your own markets.</h2>
+        <p>We'll walk you through the Macro Monitor, commodity positioning analytics and the data feeds, and show how they fit your workflow.</p>
+      </div>
+      <a class="btn primary" href="{{root}}contact/">Request a demo</a>
+    </div>
+  </div>
+</section>

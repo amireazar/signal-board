@@ -3,103 +3,210 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Market Signal Board · Analytica Horizon</title>
-<meta name="description" content="A live board of 56 indicators tracking S&amp;P 500 correction risk and support for further gains: valuation, leverage, rates, credit, earnings and flows.">
-<meta property="og:title" content="Market Signal Board · Analytica Horizon">
-<meta property="og:description" content="Live indicators for S&amp;P 500 correction risk vs. further upside.">
+<title>Analytica Horizon Technology · AI analytics for macroeconomics and commodity futures</title>
+<meta name="description" content="Analytica Horizon Technology builds AI-driven analytics for macroeconomics and commodity futures: a live macro monitor, commodity positioning analytics, research and data feeds. Based in ADGM, Abu Dhabi.">
+<link rel="canonical" href="https://analyticahorizon.com/">
+<meta property="og:title" content="Analytica Horizon Technology · AI analytics for macroeconomics and commodity futures">
+<meta property="og:description" content="Analytica Horizon Technology builds AI-driven analytics for macroeconomics and commodity futures: a live macro monitor, commodity positioning analytics, research and data feeds. Based in ADGM, Abu Dhabi.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://analyticahorizon.com/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23132030'/%3E%3Cpath d='M6 22 L12 15 L17 19 L26 9' stroke='%23E68E55' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#080D14">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="./assets/site.css">
 </head>
-<body>
-<a class="skip" href="#board">Skip to indicators</a>
-<div class="topbar">
-  <div class="topbar-in">
-    <a class="brand" href="/" aria-label="Analytica Horizon home">
-      <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="6" fill="currentColor"/><path d="M6 22 L12 15 L17 19 L26 9" stroke="var(--debt)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Analytica Horizon</span>
+<body data-page="home" data-root="./">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="./" aria-label="Analytica Horizon Technology home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+  <path d="M5 21a11 11 0 0 1 22 0" fill="none" stroke="currentColor" stroke-width="1.8"/>
+  <path d="M16 6.2v3.1M8.2 9.4l2.1 2.2M23.8 9.4l-2.1 2.2M4.4 15.2l2.9.9M27.6 15.2l-2.9.9" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M2.5 21h27" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M7 25.5h18M11 29h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".45"/>
+</svg>
+      <span class="brand-name"><b>Analytica Horizon</b><span>Technology</span></span>
     </a>
-    <nav aria-label="Sections">
-      <a href="#summary">Summary</a>
-      <a href="#margin">Margin debt</a>
-      <a href="#board">Indicators</a>
-      <a href="#method">Method</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="./monitor/">Macro Monitor</a> <a href="./commodities/">Commodities</a> <a href="./solutions/">Solutions</a> <a href="./technology/">Technology</a> <a href="./research/">Research</a> <a href="./about/">About</a> <a class="btn primary small" href="./contact/">Request a demo</a>
     </nav>
   </div>
+</header>
+<div class="livebar" aria-label="Live indicators">
+  <div class="container" id="livebar"><span class="live-dot"><i></i>Live</span><span class="tick">Loading live data…</span></div>
 </div>
-
-<main class="wrap">
-  <header class="hero">
-    <div class="eyebrow">Market Signal Board · S&amp;P 500 · <span id="n-ind">56</span> indicators</div>
-    <h1 id="headline">Is the market set up for a correction?</h1>
-    <p class="lede">A live read on the conditions that make a decline possible and the triggers that usually set one off. <strong>Bearish</strong> means a reading points to downside risk, <strong>bullish</strong> means it supports further gains, and <strong>watch</strong> means it's borderline.</p>
-    <div class="updated" id="updated" aria-live="polite">Loading the latest data…</div>
-  </header>
-
-  <section id="summary" aria-label="Summary">
-    <div class="summary" id="summary-cards"></div>
-  </section>
-
-  <section class="panel" id="changes-panel" hidden>
-    <div class="panel-h"><h2>What changed</h2><span class="meta" id="changes-meta"></span></div>
-    <ul class="changes" id="changes"></ul>
-  </section>
-
-  <section class="panel" id="margin">
-    <div class="panel-h"><h2 id="margin-title">Margin debt history</h2><span class="meta" id="margin-meta"></span></div>
-    <p class="sub">Customer debit balances in securities margin accounts at FINRA member firms. Borrowing tends to peak near market tops (2000, 2007, 2021) and falls fast in selloffs.</p>
-    <div class="tabs" role="tablist" aria-label="Margin debt views">
-      <button role="tab" aria-selected="true" data-view="level" id="tab-level">Balance ($bn)</button>
-      <button role="tab" aria-selected="false" data-view="yoy" id="tab-yoy">Year-over-year %</button>
-      <button role="tab" aria-selected="false" data-view="gdp" id="tab-gdp">% of GDP</button>
-      <button role="tab" aria-selected="false" data-view="cash" id="tab-cash">Cash cushion %</button>
+<main id="main">
+<section class="hero">
+  <div class="container">
+    <div class="hero-copy">
+      <p class="eyebrow">Abu Dhabi · ADGM</p>
+      <h1>Macro and commodity intelligence, computed continuously.</h1>
+      <p class="lead">We turn central-bank, Treasury, energy and futures-market data into a live read on economic conditions and commodity positioning. Our models do the scanning; our analysts check the conclusions.</p>
+      <div class="hero-ctas">
+        <a class="btn primary" href="./contact/">Request a platform demo</a>
+        <a class="btn" href="./monitor/">Open the live Macro Monitor</a>
+      </div>
+      <div class="hero-meta" id="hero-meta">
+        <span><b>56</b> indicators scored</span>
+        <span><b>8</b> futures markets tracked</span>
+        <span><b>30 min</b> refresh cycle</span>
+      </div>
     </div>
-    <div class="chart"><canvas id="margin-chart" role="img" aria-label="Margin debt chart"></canvas></div>
-    <p class="caption" id="margin-caption"></p>
-  </section>
-
-  <div class="controls" role="group" aria-label="Filter indicators" id="board">
-    <button class="chip" data-f="all" aria-pressed="true">All</button>
-    <button class="chip" data-f="bear" aria-pressed="false">Bearish</button>
-    <button class="chip" data-f="watch" aria-pressed="false">Watch</button>
-    <button class="chip" data-f="bull" aria-pressed="false">Bullish</button>
-    <button class="chip" data-f="na" aria-pressed="false">Not tracked</button>
-    <span class="spacer"></span>
-    <label class="toggle"><input type="checkbox" id="auto-only"> Live data only</label>
+    <figure class="pulse-wrap" id="pulse" aria-label="Macro Pulse: every indicator on the Macro Monitor, colored by its current reading">
+      <div class="pulse-center"><span class="k">Macro Pulse</span><span class="v" id="pulse-verdict">Loading</span><span class="s" id="pulse-sub">Reading 56 indicators</span></div>
+    </figure>
   </div>
+</section>
 
-  <div id="groups" class="groups"></div>
-
-  <section class="method" id="method">
-    <h2>How this board works</h2>
-    <div class="method-grid">
+<section class="section tight" aria-labelledby="now-h">
+  <div class="container">
+    <div class="section-head row">
       <div>
-        <h3>Conditions, triggers and flows</h3>
-        <p><strong>Conditions</strong> (valuation, leverage) show how far the market could fall. <strong>Triggers</strong> (rates, credit, earnings, breadth) usually decide when a decline starts. <strong>Flows</strong> show who is buying and selling.</p>
+        <p class="eyebrow">Live now</p>
+        <h2 id="now-h">Where the economy stands today</h2>
       </div>
-      <div>
-        <h3>Live and analyst readings</h3>
-        <p>Rows marked <span class="tag live">Live</span> update automatically from public sources: the Federal Reserve, US Treasury, BLS, EIA, CFTC and FINRA. The rest are <span class="tag">Analyst</span> readings, reviewed by hand and dated on each row.</p>
-      </div>
-      <div>
-        <h3>Status-only rows</h3>
-        <p>Some data comes from licensed providers such as index publishers, exchanges and research firms. For those rows we show our assessment and commentary, not the provider's numbers.</p>
-      </div>
+      <a class="btn small" href="./monitor/">All 56 indicators</a>
     </div>
-  </section>
+    <div class="tiles" id="home-tiles"></div>
+    <div class="legend" style="margin-top:16px">
+      <span><i class="st-bear"></i>Points to downside risk</span>
+      <span><i class="st-watch"></i>Borderline</span>
+      <span><i class="st-bull"></i>Supportive</span>
+    </div>
+  </div>
+</section>
 
-  <footer class="foot">
-    <p><strong>Important:</strong> This page is for informational and educational purposes only. It is not investment, trading, legal or tax advice, and it is not a recommendation or solicitation to buy or sell any security, futures contract or option. Indicators can be wrong, late or revised, and past patterns do not guarantee future results. Trading futures and options involves substantial risk of loss and is not suitable for all investors.</p>
-    <p>Data: Federal Reserve Board and Federal Reserve Bank of St. Louis (FRED), Federal Reserve Bank of Chicago, US Treasury, US Bureau of Labor Statistics, US Energy Information Administration, US Department of Labor, CFTC, FINRA. Analyst readings reference published figures from their sources as noted.</p>
-    <p class="meta">© <span id="yr">2026</span> Analytica Horizon</p>
-  </footer>
+<section class="section" aria-labelledby="regime-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Regime read</p>
+      <h2 id="regime-h">Conditions, triggers and flows</h2>
+      <p>Every indicator is assigned a role. Conditions show how far markets could fall. Triggers tend to decide when. Flows show who is buying and who is selling.</p>
+    </div>
+    <div class="regime" id="home-regime"></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="cmd-h">
+  <div class="container">
+    <div class="section-head row">
+      <div>
+        <p class="eyebrow">Commodity futures</p>
+        <h2 id="cmd-h">Energy prices and speculative positioning</h2>
+        <p style="margin-top:12px">Spot energy prices from the US Energy Information Administration, and managed-money positioning from the CFTC's weekly Commitments of Traders report.</p>
+      </div>
+      <a class="btn small" href="./commodities/">Commodities dashboard</a>
+    </div>
+    <div class="tiles" id="home-energy" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))"></div>
+    <div class="pos" id="home-pos" style="margin-top:20px"></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="sol-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Solutions</p>
+      <h2 id="sol-h">Four ways to work with us</h2>
+    </div>
+    <div class="grid g4">
+      <article class="card">
+        <span class="tagline">Platform</span>
+        <h3>AI analytics platform</h3>
+        <p>Dashboards, regime scoring and positioning analytics across macro and commodity futures, with alerts when conditions change.</p>
+        <a class="more" href="./solutions/#platform">Platform</a>
+      </article>
+      <article class="card">
+        <span class="tagline">Research</span>
+        <h3>Research subscriptions</h3>
+        <p>Weekly macro and commodities outlooks that explain what the data is showing and why it matters.</p>
+        <a class="more" href="./solutions/#research">Research</a>
+      </article>
+      <article class="card">
+        <span class="tagline">Data</span>
+        <h3>Data and API</h3>
+        <p>Clean, versioned indicator series and model outputs delivered as JSON feeds for your own systems.</p>
+        <a class="more" href="./solutions/#data">Data and API</a>
+      </article>
+      <article class="card">
+        <span class="tagline">Engagements</span>
+        <h3>Institutional analytics</h3>
+        <p>Custom models, dashboards and data pipelines built for funds, trading desks and corporate treasury teams.</p>
+        <a class="more" href="./solutions/#engagements">Engagements</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="how-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-h">From raw releases to a scored view of the market</h2>
+    </div>
+    <div class="pipeline">
+      <div class="step"><span class="k">01 Ingest</span><h3>Official sources</h3><p>Federal Reserve, US Treasury, BLS, EIA, CFTC and FINRA releases, pulled as they publish.</p><span class="stat" id="st-live">20 live series</span></div>
+      <div class="step"><span class="k">02 Clean</span><h3>Normalize</h3><p>Align frequencies and release dates, handle revisions, and keep every value traceable to its source.</p><span class="stat">Daily to quarterly</span></div>
+      <div class="step"><span class="k">03 Model</span><h3>Score and detect</h3><p>Threshold, percentile and trend models score each indicator and flag regime shifts.</p><span class="stat">56 indicators</span></div>
+      <div class="step"><span class="k">04 Review</span><h3>Analyst check</h3><p>Analysts review model output and add readings the public data can't capture.</p><span class="stat">36 analyst readings</span></div>
+      <div class="step"><span class="k">05 Deliver</span><h3>Publish</h3><p>Dashboards, alerts, research notes and data feeds, refreshed on a 30-minute cycle.</p><span class="stat" id="st-updated">Updated —</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section tight">
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2>See the full platform on your own markets.</h2>
+        <p>We'll walk you through the Macro Monitor, commodity positioning analytics and the data feeds, and show how they fit your workflow.</p>
+      </div>
+      <a class="btn primary" href="./contact/">Request a demo</a>
+    </div>
+  </div>
+</section>
 </main>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
-<script src="assets/app.js" defer></script>
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="./" aria-label="Analytica Horizon Technology home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+  <path d="M5 21a11 11 0 0 1 22 0" fill="none" stroke="currentColor" stroke-width="1.8"/>
+  <path d="M16 6.2v3.1M8.2 9.4l2.1 2.2M23.8 9.4l-2.1 2.2M4.4 15.2l2.9.9M27.6 15.2l-2.9.9" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M2.5 21h27" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M7 25.5h18M11 29h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".45"/>
+</svg><span class="brand-name"><b>Analytica Horizon</b><span>Technology</span></span></a>
+        <p style="margin-top:14px;max-width:38ch">AI-driven analytics for macroeconomics and commodity futures. Built in Abu Dhabi.</p>
+      </div>
+      <div><h4>Live data</h4><ul>
+        <li><a href="./monitor/">Macro Monitor</a></li>
+        <li><a href="./commodities/">Commodities</a></li>
+        <li><a href="./research/">Research</a></li>
+      </ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="./solutions/">Solutions</a></li>
+        <li><a href="./technology/">Technology</a></li>
+        <li><a href="./about/">About</a></li>
+        <li><a href="./contact/">Contact</a></li>
+      </ul></div>
+      <div><h4>Legal</h4><ul>
+        <li><a href="./legal/#disclaimer">Disclaimer</a></li>
+        <li><a href="./legal/#terms">Terms of use</a></li>
+        <li><a href="./legal/#privacy">Privacy notice</a></li>
+        <li><a href="./legal/#data">Data sources</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-legal">
+      <p>Analytica Horizon Technology is a company registered in Abu Dhabi Global Market (ADGM), Abu Dhabi, United Arab Emirates. </p>
+      <p>Content on this website is general information about markets and economic data. It is not investment, financial, legal or tax advice, not a recommendation to buy or sell any security, futures contract or other instrument, and not an offer of any regulated financial service. See the <a href="./legal/#disclaimer">disclaimer</a>.</p>
+      <p>© <span data-year>2026</span> Analytica Horizon Technology.</p>
+    </div>
+  </div>
+</footer>
+<script src="./assets/site.js" defer></script>
 </body>
 </html>

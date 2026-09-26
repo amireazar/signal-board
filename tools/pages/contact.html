@@ -1,0 +1,55 @@
+<!--{"path": "contact/", "title": "Contact", "description": "Request a demo of the Analytica Horizon platform, subscribe to research, or ask about data access and analytics engagements.", "nav": "contact", "page": "contact"}-->
+<section class="page-head">
+  <div class="container">
+    <p class="crumbs">Contact</p>
+    <h1>Request a demo or get in touch</h1>
+    <p class="lead">Tell us a little about your team and what you're looking for. We reply within two business days.</p>
+  </div>
+</section>
+
+<section class="section tight" style="border-top:0;padding-top:0">
+  <div class="container split">
+    <form class="form panel" id="contact-form" data-formspree="{{formspree_id}}" novalidate>
+      <div class="two">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="f-org">Organization</label><input id="f-org" name="organization" autocomplete="organization"></div>
+        <div class="field"><label for="f-role">Role</label><input id="f-role" name="role" autocomplete="organization-title"></div>
+      </div>
+      <div class="field">
+        <label for="f-interest">I'm interested in</label>
+        <select id="f-interest" name="interest">
+          <option value="platform">A platform demo</option>
+          <option value="research">A research subscription</option>
+          <option value="data">Data and API access</option>
+          <option value="engagement">An analytics engagement</option>
+          <option value="other">Something else</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required placeholder="Which markets do you cover, and what would you like to see?"></textarea></div>
+      <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="check"><input type="checkbox" id="f-consent" name="consent" required> <span>I agree that {{company}} may use these details to respond to my enquiry, as described in the <a href="{{root}}legal/#privacy">privacy notice</a>.</span></label>
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+        <button class="btn primary" type="submit" id="f-submit">Send message</button>
+        <span class="form-msg" id="f-msg-out" role="status" aria-live="polite"></span>
+      </div>
+    </form>
+    <div style="display:grid;gap:20px;align-content:start">
+      <div class="card">
+        <h3>What happens next</h3>
+        <ul>
+          <li>We review your message and reply within two business days.</li>
+          <li>For demos, we'll suggest a 30-minute slot and tailor it to the markets you follow.</li>
+          <li>Research subscribers get the next weekly outlook by email.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Location</h3>
+        <p>{{jurisdiction}}</p>
+        <p class="note" style="font-size:13px">Meetings in Abu Dhabi by appointment. Demos are held online.</p>
+      </div>
+    </div>
+  </div>
+</section>
