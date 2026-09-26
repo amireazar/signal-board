@@ -1,0 +1,65 @@
+name: Update data and deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["site/data/**"]
+  workflow_dispatch:
+  schedule:
+    # Every 30 minutes, 9:00-17:30 US Eastern (13:00-21:30 UTC in daylight time), weekdays
+    - cron: "*/30 13-21 * * 1-5"
+    # Nightly run after most US data releases; also saves a snapshot to the repo
+    - cron: "15 23 * * *"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Build indicators.json
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          # Compare against what is live now, so status changes are logged
+          AH_PREVIOUS: https://analyticahorizon.com/data/indicators.json
+        run: python scripts/update.py
+
+      - name: Save nightly snapshot (keeps scheduled runs active)
+        if: github.event.schedule == '15 23 * * *'
+        run: |
+          git config user.name "signal-board-bot"
+          git config user.email "signal-board-bot@users.noreply.github.com"
+          git add site/data/indicators.json
+          git diff --cached --quiet || git commit -m "Data snapshot $(date -u +%F)"
+          git push
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
