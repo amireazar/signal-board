@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Market Signal Board · Analytica Horizon</title>
+<meta name="description" content="A live board of 56 indicators tracking S&amp;P 500 correction risk and support for further gains: valuation, leverage, rates, credit, earnings and flows.">
+<meta property="og:title" content="Market Signal Board · Analytica Horizon">
+<meta property="og:description" content="Live indicators for S&amp;P 500 correction risk vs. further upside.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://analyticahorizon.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23132030'/%3E%3Cpath d='M6 22 L12 15 L17 19 L26 9' stroke='%23E68E55' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#board">Skip to indicators</a>
+<div class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="/" aria-label="Analytica Horizon home">
+      <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="6" fill="currentColor"/><path d="M6 22 L12 15 L17 19 L26 9" stroke="var(--debt)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Analytica Horizon</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#summary">Summary</a>
+      <a href="#margin">Margin debt</a>
+      <a href="#board">Indicators</a>
+      <a href="#method">Method</a>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Market Signal Board · S&amp;P 500 · <span id="n-ind">56</span> indicators</div>
+    <h1 id="headline">Is the market set up for a correction?</h1>
+    <p class="lede">A live read on the conditions that make a decline possible and the triggers that usually set one off. <strong>Bearish</strong> means a reading points to downside risk, <strong>bullish</strong> means it supports further gains, and <strong>watch</strong> means it's borderline.</p>
+    <div class="updated" id="updated" aria-live="polite">Loading the latest data…</div>
+  </header>
+
+  <section id="summary" aria-label="Summary">
+    <div class="summary" id="summary-cards"></div>
+  </section>
+
+  <section class="panel" id="changes-panel" hidden>
+    <div class="panel-h"><h2>What changed</h2><span class="meta" id="changes-meta"></span></div>
+    <ul class="changes" id="changes"></ul>
+  </section>
+
+  <section class="panel" id="margin">
+    <div class="panel-h"><h2 id="margin-title">Margin debt history</h2><span class="meta" id="margin-meta"></span></div>
+    <p class="sub">Customer debit balances in securities margin accounts at FINRA member firms. Borrowing tends to peak near market tops (2000, 2007, 2021) and falls fast in selloffs.</p>
+    <div class="tabs" role="tablist" aria-label="Margin debt views">
+      <button role="tab" aria-selected="true" data-view="level" id="tab-level">Balance ($bn)</button>
+      <button role="tab" aria-selected="false" data-view="yoy" id="tab-yoy">Year-over-year %</button>
+      <button role="tab" aria-selected="false" data-view="gdp" id="tab-gdp">% of GDP</button>
+      <button role="tab" aria-selected="false" data-view="cash" id="tab-cash">Cash cushion %</button>
+    </div>
+    <div class="chart"><canvas id="margin-chart" role="img" aria-label="Margin debt chart"></canvas></div>
+    <p class="caption" id="margin-caption"></p>
+  </section>
+
+  <div class="controls" role="group" aria-label="Filter indicators" id="board">
+    <button class="chip" data-f="all" aria-pressed="true">All</button>
+    <button class="chip" data-f="bear" aria-pressed="false">Bearish</button>
+    <button class="chip" data-f="watch" aria-pressed="false">Watch</button>
+    <button class="chip" data-f="bull" aria-pressed="false">Bullish</button>
+    <button class="chip" data-f="na" aria-pressed="false">Not tracked</button>
+    <span class="spacer"></span>
+    <label class="toggle"><input type="checkbox" id="auto-only"> Live data only</label>
+  </div>
+
+  <div id="groups" class="groups"></div>
+
+  <section class="method" id="method">
+    <h2>How this board works</h2>
+    <div class="method-grid">
+      <div>
+        <h3>Conditions, triggers and flows</h3>
+        <p><strong>Conditions</strong> (valuation, leverage) show how far the market could fall. <strong>Triggers</strong> (rates, credit, earnings, breadth) usually decide when a decline starts. <strong>Flows</strong> show who is buying and selling.</p>
+      </div>
+      <div>
+        <h3>Live and analyst readings</h3>
+        <p>Rows marked <span class="tag live">Live</span> update automatically from public sources: the Federal Reserve, US Treasury, BLS, EIA, CFTC and FINRA. The rest are <span class="tag">Analyst</span> readings, reviewed by hand and dated on each row.</p>
+      </div>
+      <div>
+        <h3>Status-only rows</h3>
+        <p>Some data comes from licensed providers such as index publishers, exchanges and research firms. For those rows we show our assessment and commentary, not the provider's numbers.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><strong>Important:</strong> This page is for informational and educational purposes only. It is not investment, trading, legal or tax advice, and it is not a recommendation or solicitation to buy or sell any security, futures contract or option. Indicators can be wrong, late or revised, and past patterns do not guarantee future results. Trading futures and options involves substantial risk of loss and is not suitable for all investors.</p>
+    <p>Data: Federal Reserve Board and Federal Reserve Bank of St. Louis (FRED), Federal Reserve Bank of Chicago, US Treasury, US Bureau of Labor Statistics, US Energy Information Administration, US Department of Labor, CFTC, FINRA. Analyst readings reference published figures from their sources as noted.</p>
+    <p class="meta">© <span id="yr">2026</span> Analytica Horizon</p>
+  </footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
