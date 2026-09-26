@@ -1,23 +1,28 @@
-# Analytica Horizon — Market Signal Board
+# Analytica Horizon Technology — website and live data
 
-A public, self-updating dashboard for **analyticahorizon.com** that tracks 56 indicators of S&P 500 correction risk vs. support for further gains.
+The public website for **analyticahorizon.com**, with live macroeconomic and commodity-futures data.
 
-- **20 live indicators** refresh automatically from public sources: Federal Reserve / FRED, US Treasury, BLS, EIA, DOL, CFTC and FINRA.
-- **36 analyst indicators** come from `config/manual.json`, which you edit by hand. Rows whose data comes from licensed providers show only your status and commentary, never the provider's numbers.
-- **Margin debt history** since 1997 (FINRA), shown four ways: balance, year-over-year change, % of GDP, and cash cushion.
-- **Status changes are logged automatically** and shown in the "What changed" panel.
-- The page re-checks for new data every 5 minutes while it's open.
+| Page | Path | What's on it |
+|---|---|---|
+| Home | `/` | Macro Pulse ring, live indicator tiles, regime read, energy and positioning snapshot |
+| Macro Monitor | `/monitor/` | All 56 indicators, status-change log, margin debt since 1997 |
+| Commodities | `/commodities/` | EIA energy prices, CFTC managed-money positioning for 8 futures markets |
+| Solutions | `/solutions/` | Platform, research, data/API, institutional engagements |
+| Technology | `/technology/` | Pipeline, scoring, machine learning, data provenance |
+| Research | `/research/` | Latest outlook note |
+| About | `/about/` | Company, principles, ADGM details |
+| Contact | `/contact/` | Demo and enquiry form (Formspree) |
+| Legal | `/legal/` | Disclaimer, terms, privacy notice, data sources |
 
-It's a static site (no server, no database), hosted free on GitHub Pages. A GitHub Actions job rebuilds the data every 30 minutes during US market hours, plus once nightly.
+**Editing pages:** the page text lives in `tools/pages/*.html`, and shared settings (company name, ADGM registration number, registered office, Formspree form ID) in `tools/site.json`. After editing, run `python tools/build_site.py` to regenerate `site/`. You can also edit the generated files in `site/` directly on GitHub for small text fixes, but those changes are overwritten the next time the build script runs.
 
-```
-config/indicators.json   indicator definitions, sources, thresholds, licensing flag
-config/manual.json       analyst readings you maintain
-scripts/update.py        fetches data, scores indicators, writes site/data/indicators.json
-site/                    the website (index.html, assets/, data/)
-.github/workflows/       the scheduled update-and-deploy job
-tests/                   offline test fixtures (synthetic; never publish a build made from them)
-```
+**Contact form (Formspree):**
+1. Create a free account at https://formspree.io and add a new form. Set its email to the inbox that should receive enquiries.
+2. Copy the form ID: the part after `/f/` in the endpoint, for example `xyzabcd`.
+3. Put it in `tools/site.json` as `"formspree_id": "xyzabcd"` and run the build script, or edit `site/contact/index.html` and set `data-formspree="xyzabcd"` on the form.
+Until the ID is set, the form shows "being connected" and its send button is disabled.
+
+**Company details in the footer:** add your ADGM registration number and registered office address to `tools/site.json`. They appear in every page footer once filled in.
 
 ---
 
@@ -42,21 +47,28 @@ tests/                   offline test fixtures (synthetic; never publish a build
 2. Open **Update data and deploy**, click **Run workflow**, and wait about 2 minutes.
 3. The site is now live at `https://<your-username>.github.io/<repo>/`. Check it there before switching the domain over.
 
-### 5. Point analyticahorizon.com at it
-1. In **Settings → Pages → Custom domain**, enter `analyticahorizon.com` and save.
-2. At your domain registrar's DNS settings, add these records:
+### 5. Point analyticahorizon.com at it (GoDaddy)
+1. In GitHub, go to **Settings → Pages → Custom domain**, enter `analyticahorizon.com`, and click **Save**.
+2. Recommended first: in your GitHub **account** (not repo) **Settings → Pages → Add a domain**, enter `analyticahorizon.com`. GitHub shows a TXT record for verifying the domain; add it in step 4.
+3. In GoDaddy, go to **My Products → Domains → analyticahorizon.com → DNS** (sometimes labeled **Manage DNS**).
+   - If **Forwarding** is turned on for the domain, remove it.
+   - If the domain is connected to GoDaddy Website Builder or a parked page, disconnect it. Otherwise GoDaddy keeps overriding the records.
+4. In the **DNS Records** table:
 
-   | Type | Host / Name | Value |
-   |---|---|---|
-   | A | @ | 185.199.108.153 |
-   | A | @ | 185.199.109.153 |
-   | A | @ | 185.199.110.153 |
-   | A | @ | 185.199.111.153 |
-   | CNAME | www | `<your-username>.github.io` |
+   | Action | Type | Name | Value | TTL |
+   |---|---|---|---|---|
+   | Delete or edit the existing one | A | @ | (usually "Parked" or a GoDaddy IP) | |
+   | Add | A | @ | 185.199.108.153 | 1 hour |
+   | Add | A | @ | 185.199.109.153 | 1 hour |
+   | Add | A | @ | 185.199.110.153 | 1 hour |
+   | Add | A | @ | 185.199.111.153 | 1 hour |
+   | Edit the existing one | CNAME | www | `<your-github-username>.github.io` | 1 hour |
+   | Add (from step 2) | TXT | `_github-pages-challenge-<username>` | the code GitHub gave you | 1 hour |
 
-   Remove any other A or AAAA records on `@` (for example, a registrar "parked" page).
-3. DNS changes can take anywhere from a few minutes to 24 hours. Once GitHub shows the domain as verified, tick **Enforce HTTPS**.
-4. Recommended: verify the domain under your GitHub **account** settings (**Settings → Pages → Add a domain**). This stops anyone else from claiming it.
+   Leave the NS and SOA records alone, and leave any MX records alone if you use email on this domain.
+5. Wait for DNS to update (usually 10–60 minutes; up to 24 hours). When GitHub's Pages settings show "DNS check successful", tick **Enforce HTTPS**. The certificate can take up to an hour to appear.
+
+On another registrar, the records are the same: four A records on `@` and a `www` CNAME to `<your-github-username>.github.io`.
 
 ---
 

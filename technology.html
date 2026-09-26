@@ -1,0 +1,67 @@
+<!--{"path": "technology/", "title": "Technology", "description": "How Analytica Horizon's analytics work: official data ingestion, transparent indicator scoring, machine learning for regime detection and nowcasting, and analyst review.", "nav": "technology", "page": "technology"}-->
+<section class="page-head">
+  <div class="container">
+    <p class="crumbs">Technology</p>
+    <h1>Models that explain themselves</h1>
+    <p class="lead">Markets don't reward black boxes that no one can question. We combine transparent scoring rules with machine learning, and keep every output traceable to the data that produced it.</p>
+  </div>
+</section>
+
+<section class="section tight" style="border-top:0;padding-top:0">
+  <div class="container">
+    <div class="pipeline">
+      <div class="step"><span class="k">01 Ingest</span><h3>Official sources</h3><p>Scheduled collectors pull each release as it publishes and record when it arrived.</p></div>
+      <div class="step"><span class="k">02 Clean</span><h3>Normalize</h3><p>Series are aligned to a common calendar, revisions are tracked, and gaps are flagged instead of filled silently.</p></div>
+      <div class="step"><span class="k">03 Features</span><h3>Transform</h3><p>Levels become changes, percentiles, trends and ratios, such as margin debt relative to GDP.</p></div>
+      <div class="step"><span class="k">04 Models</span><h3>Score and detect</h3><p>Rules score each indicator; statistical models look for shifts across the whole set.</p></div>
+      <div class="step"><span class="k">05 Review</span><h3>Human check</h3><p>Analysts review changes before they reach research, and add readings that data alone can't capture.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="t1">
+  <div class="container split">
+    <div style="display:grid;gap:14px">
+      <p class="eyebrow">Transparent scoring</p>
+      <h2 id="t1">Every status has a rule you can read</h2>
+    </div>
+    <div class="prose" style="font-size:16px">
+      <p>Each indicator on the Macro Monitor has a written rule. For example, the 10-year Treasury yield scores as downside risk at 5% or above and borderline above 4.5%. Margin debt relative to GDP is scored by its percentile since 1997.</p>
+      <p>Because the rules are explicit, you can see why a status changed and decide whether you agree. Rules are reviewed as market structure changes, and each revision is dated.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="t2">
+  <div class="container split">
+    <div style="display:grid;gap:14px">
+      <p class="eyebrow">Machine learning</p>
+      <h2 id="t2">Where models add signal</h2>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h3>Regime detection</h3><p>Classifying the current mix of conditions and comparing it with past episodes, such as rate-driven slowdowns and leverage-driven selloffs.</p></div>
+      <div class="card"><h3>Nowcasting</h3><p>Estimating monthly and quarterly releases from faster weekly and daily data before the official number arrives.</p></div>
+      <div class="card"><h3>Positioning analytics</h3><p>Measuring how stretched futures positioning is against its own history, and how prices have behaved from similar extremes.</p></div>
+      <div class="card"><h3>Text analysis</h3><p>Reading central-bank statements and energy-agency reports to track changes in tone and emphasis over time.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="t3">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Data provenance</p>
+      <h2 id="t3">Where the live data comes from</h2>
+      <p>Public figures on this site come from official sources and are shown with attribution. Where an input comes from a licensed provider, we publish our assessment rather than the provider's numbers.</p>
+    </div>
+    <div class="pos">
+      <div class="pos-row head" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span>Source</span><span>Used for</span><span>Frequency</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>Federal Reserve Board</b><span>via FRED</span></span><span class="note">Real yields, term premium, Fed balance sheet, bank lending survey, loan delinquency, money fund assets</span><span class="note">Daily to quarterly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>US Treasury</b><span>Fiscal Data, FRED</span></span><span class="note">Treasury yields, yield curve, auction results</span><span class="note">Daily, per auction</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>US EIA</b><span>via FRED</span></span><span class="note">WTI, Brent, Henry Hub, gasoline and diesel prices</span><span class="note">Daily, weekly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>CFTC</b><span>Commitments of Traders</span></span><span class="note">Futures positioning in equity index, energy, metals and agricultural markets</span><span class="note">Weekly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>FINRA</b><span>Margin statistics</span></span><span class="note">Margin debt and brokerage cash balances since 1997</span><span class="note">Monthly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>BLS, DOL, BEA, Chicago Fed</b><span>via FRED</span></span><span class="note">CPI, jobless claims, Sahm rule, GDP, financial conditions</span><span class="note">Weekly to quarterly</span></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Technology · Analytica Horizon Technology</title>
+<meta name="description" content="How Analytica Horizon&#x27;s analytics work: official data ingestion, transparent indicator scoring, machine learning for regime detection and nowcasting, and analyst review.">
+<link rel="canonical" href="https://analyticahorizon.com/technology/">
+<meta property="og:title" content="Technology · Analytica Horizon Technology">
+<meta property="og:description" content="How Analytica Horizon&#x27;s analytics work: official data ingestion, transparent indicator scoring, machine learning for regime detection and nowcasting, and analyst review.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://analyticahorizon.com/technology/">
+<meta name="theme-color" content="#080D14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F6F9" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="technology" data-root="../">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../" aria-label="Analytica Horizon Technology home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+  <path d="M5 21a11 11 0 0 1 22 0" fill="none" stroke="currentColor" stroke-width="1.8"/>
+  <path d="M16 6.2v3.1M8.2 9.4l2.1 2.2M23.8 9.4l-2.1 2.2M4.4 15.2l2.9.9M27.6 15.2l-2.9.9" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M2.5 21h27" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M7 25.5h18M11 29h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".45"/>
+</svg>
+      <span class="brand-name"><b>Analytica Horizon</b><span>Technology</span></span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="../monitor/">Macro Monitor</a> <a href="../commodities/">Commodities</a> <a href="../solutions/">Solutions</a> <a href="../technology/" aria-current="page">Technology</a> <a href="../research/">Research</a> <a href="../about/">About</a> <a class="btn primary small" href="../contact/">Request a demo</a>
+    </nav>
+  </div>
+</header>
+<div class="livebar" aria-label="Live indicators">
+  <div class="container" id="livebar"><span class="live-dot"><i></i>Live</span><span class="tick">Loading live data…</span></div>
+</div>
+<main id="main">
+<section class="page-head">
+  <div class="container">
+    <p class="crumbs">Technology</p>
+    <h1>Models that explain themselves</h1>
+    <p class="lead">Markets don't reward black boxes that no one can question. We combine transparent scoring rules with machine learning, and keep every output traceable to the data that produced it.</p>
+  </div>
+</section>
+
+<section class="section tight" style="border-top:0;padding-top:0">
+  <div class="container">
+    <div class="pipeline">
+      <div class="step"><span class="k">01 Ingest</span><h3>Official sources</h3><p>Scheduled collectors pull each release as it publishes and record when it arrived.</p></div>
+      <div class="step"><span class="k">02 Clean</span><h3>Normalize</h3><p>Series are aligned to a common calendar, revisions are tracked, and gaps are flagged instead of filled silently.</p></div>
+      <div class="step"><span class="k">03 Features</span><h3>Transform</h3><p>Levels become changes, percentiles, trends and ratios, such as margin debt relative to GDP.</p></div>
+      <div class="step"><span class="k">04 Models</span><h3>Score and detect</h3><p>Rules score each indicator; statistical models look for shifts across the whole set.</p></div>
+      <div class="step"><span class="k">05 Review</span><h3>Human check</h3><p>Analysts review changes before they reach research, and add readings that data alone can't capture.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="t1">
+  <div class="container split">
+    <div style="display:grid;gap:14px">
+      <p class="eyebrow">Transparent scoring</p>
+      <h2 id="t1">Every status has a rule you can read</h2>
+    </div>
+    <div class="prose" style="font-size:16px">
+      <p>Each indicator on the Macro Monitor has a written rule. For example, the 10-year Treasury yield scores as downside risk at 5% or above and borderline above 4.5%. Margin debt relative to GDP is scored by its percentile since 1997.</p>
+      <p>Because the rules are explicit, you can see why a status changed and decide whether you agree. Rules are reviewed as market structure changes, and each revision is dated.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="t2">
+  <div class="container split">
+    <div style="display:grid;gap:14px">
+      <p class="eyebrow">Machine learning</p>
+      <h2 id="t2">Where models add signal</h2>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h3>Regime detection</h3><p>Classifying the current mix of conditions and comparing it with past episodes, such as rate-driven slowdowns and leverage-driven selloffs.</p></div>
+      <div class="card"><h3>Nowcasting</h3><p>Estimating monthly and quarterly releases from faster weekly and daily data before the official number arrives.</p></div>
+      <div class="card"><h3>Positioning analytics</h3><p>Measuring how stretched futures positioning is against its own history, and how prices have behaved from similar extremes.</p></div>
+      <div class="card"><h3>Text analysis</h3><p>Reading central-bank statements and energy-agency reports to track changes in tone and emphasis over time.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="t3">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Data provenance</p>
+      <h2 id="t3">Where the live data comes from</h2>
+      <p>Public figures on this site come from official sources and are shown with attribution. Where an input comes from a licensed provider, we publish our assessment rather than the provider's numbers.</p>
+    </div>
+    <div class="pos">
+      <div class="pos-row head" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span>Source</span><span>Used for</span><span>Frequency</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>Federal Reserve Board</b><span>via FRED</span></span><span class="note">Real yields, term premium, Fed balance sheet, bank lending survey, loan delinquency, money fund assets</span><span class="note">Daily to quarterly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>US Treasury</b><span>Fiscal Data, FRED</span></span><span class="note">Treasury yields, yield curve, auction results</span><span class="note">Daily, per auction</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>US EIA</b><span>via FRED</span></span><span class="note">WTI, Brent, Henry Hub, gasoline and diesel prices</span><span class="note">Daily, weekly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>CFTC</b><span>Commitments of Traders</span></span><span class="note">Futures positioning in equity index, energy, metals and agricultural markets</span><span class="note">Weekly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>FINRA</b><span>Margin statistics</span></span><span class="note">Margin debt and brokerage cash balances since 1997</span><span class="note">Monthly</span></div>
+      <div class="pos-row" style="grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) minmax(0,1fr)"><span class="pos-name"><b>BLS, DOL, BEA, Chicago Fed</b><span>via FRED</span></span><span class="note">CPI, jobless claims, Sahm rule, GDP, financial conditions</span><span class="note">Weekly to quarterly</span></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="../" aria-label="Analytica Horizon Technology home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+  <path d="M5 21a11 11 0 0 1 22 0" fill="none" stroke="currentColor" stroke-width="1.8"/>
+  <path d="M16 6.2v3.1M8.2 9.4l2.1 2.2M23.8 9.4l-2.1 2.2M4.4 15.2l2.9.9M27.6 15.2l-2.9.9" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M2.5 21h27" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M7 25.5h18M11 29h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".45"/>
+</svg><span class="brand-name"><b>Analytica Horizon</b><span>Technology</span></span></a>
+        <p style="margin-top:14px;max-width:38ch">AI-driven analytics for macroeconomics and commodity futures. Built in Abu Dhabi.</p>
+      </div>
+      <div><h4>Live data</h4><ul>
+        <li><a href="../monitor/">Macro Monitor</a></li>
+        <li><a href="../commodities/">Commodities</a></li>
+        <li><a href="../research/">Research</a></li>
+      </ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="../solutions/">Solutions</a></li>
+        <li><a href="../technology/">Technology</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a href="../contact/">Contact</a></li>
+      </ul></div>
+      <div><h4>Legal</h4><ul>
+        <li><a href="../legal/#disclaimer">Disclaimer</a></li>
+        <li><a href="../legal/#terms">Terms of use</a></li>
+        <li><a href="../legal/#privacy">Privacy notice</a></li>
+        <li><a href="../legal/#data">Data sources</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-legal">
+      <p>Analytica Horizon Technology is a company registered in Abu Dhabi Global Market (ADGM), Abu Dhabi, United Arab Emirates. </p>
+      <p>Content on this website is general information about markets and economic data. It is not investment, financial, legal or tax advice, not a recommendation to buy or sell any security, futures contract or other instrument, and not an offer of any regulated financial service. See the <a href="../legal/#disclaimer">disclaimer</a>.</p>
+      <p>© <span data-year>2026</span> Analytica Horizon Technology.</p>
+    </div>
+  </div>
+</footer>
+<script src="../assets/site.js" defer></script>
+</body>
+</html>

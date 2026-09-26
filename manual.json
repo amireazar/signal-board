@@ -1,0 +1,254 @@
+{
+ "pe": {
+  "reading": "26.3",
+  "status": "bear",
+  "asOf": "2026-09-23",
+  "note": "Long-run average 16.2; trailing reported earnings",
+  "public_note": "Well above the long-run average on trailing earnings."
+ },
+ "fpe": {
+  "reading": "19.1",
+  "status": "watch",
+  "asOf": "2026-09-18",
+  "note": "In line with 5-yr (19.8) and 10-yr (19.0) averages because earnings grew so fast",
+  "public_note": "Close to its 5- and 10-year averages because expected earnings growth is very strong."
+ },
+ "cape": {
+  "reading": "41.3",
+  "status": "bear",
+  "asOf": "2026-09-23",
+  "note": "Record is 44.2 (Dec 1999)",
+  "public_note": "Near the record set in December 1999."
+ },
+ "ey": {
+  "reading": "−1.4 pts trailing · ~0 forward",
+  "status": "bear",
+  "asOf": "2026-09-23",
+  "note": "Trailing earnings yield 3.8%, forward 5.2%, vs. 10-yr 5.18%",
+  "public_note": "Stocks' trailing earnings yield is below the 10-year Treasury yield; roughly even on forward earnings."
+ },
+ "buffett": {
+  "reading": "244%",
+  "status": "bear",
+  "asOf": "2026-06-30",
+  "note": "About 2.6 standard deviations above trend",
+  "public_note": "Well above its long-term trend."
+ },
+ "ps": {
+  "reading": "3.80",
+  "status": "bear",
+  "asOf": "2026-09-23",
+  "note": "Above the prior monthly record of 3.35",
+  "public_note": "At a record high."
+ },
+ "pb": {
+  "reading": "6.11",
+  "status": "bear",
+  "asOf": "2026-09-23",
+  "note": "Average 3.16; prior monthly record 5.39",
+  "public_note": "At a record high."
+ },
+ "conc": {
+  "reading": "38.8% (top 10)",
+  "status": "bear",
+  "asOf": "2026-09-24",
+  "note": "Nvidia 7.7%, Apple 7.0%, Microsoft 5.3%; well above the 30% threshold",
+  "public_note": "The ten largest companies make up well over 30% of the index."
+ },
+ "letf": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "No free source reachable",
+  "public_note": "Not currently tracked."
+ },
+ "odte": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "No free source reachable; equity put/call row is a partial proxy",
+  "public_note": "Not currently tracked."
+ },
+ "bofa": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "BofA Global Fund Manager Survey is not publicly posted",
+  "public_note": "Not currently tracked."
+ },
+ "mmf": {
+  "reading": "~3.9% vs. 3.8% trailing EY",
+  "status": "watch",
+  "asOf": "2026-09-22",
+  "note": "Cash yield is roughly level with the trailing earnings yield",
+  "public_note": "Cash yields are roughly level with the trailing earnings yield on stocks."
+ },
+ "hy": {
+  "reading": "2.68%",
+  "status": "bull",
+  "asOf": "2026-09-22",
+  "note": "No stress; this tight also means little cushion",
+  "public_note": "Spreads are tight. No sign of credit stress, but little cushion."
+ },
+ "ig": {
+  "reading": "0.77%",
+  "status": "bull",
+  "asOf": "2026-09-23",
+  "note": "Very tight",
+  "public_note": "Spreads are very tight."
+ },
+ "growth": {
+  "reading": "CY26 +31.8% · CY27 +15.2%",
+  "status": "bull",
+  "asOf": "2026-09-18",
+  "note": "Q3 2026 expected +28.9% YoY",
+  "public_note": "Analysts expect very strong earnings growth this year and solid growth next year."
+ },
+ "revisions": {
+  "reading": "Q3 est. +1.6% since Jun 30",
+  "status": "bull",
+  "asOf": "2026-09-18",
+  "note": "Usually fall 2.2% during a quarter",
+  "public_note": "Quarterly estimates have risen during the quarter, which is unusual."
+ },
+ "guidance": {
+  "reading": "72 positive / 43 negative",
+  "status": "bull",
+  "asOf": "2026-09-18",
+  "note": "63% positive vs. ~42% norm",
+  "public_note": "Positive guidance is running well above its historical share."
+ },
+ "margins": {
+  "reading": "Q2 17.0% record · Q3 est. 15.0%",
+  "status": "bear",
+  "asOf": "2026-09-18",
+  "note": "5-yr average 12.4%: record margins leave room to disappoint",
+  "public_note": "Profit margins are at or near records, leaving room to disappoint."
+ },
+ "ai": {
+  "reading": "65%+ of Q2 calls cited AI",
+  "status": "watch",
+  "asOf": "2026-09-18",
+  "note": "Mentions, not proof of revenue",
+  "public_note": "AI is widely cited on earnings calls; broad revenue payoff is not yet proven."
+ },
+ "ism": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "Couldn't reach the current ISM report; add Aug/Sep readings manually",
+  "public_note": "Not currently tracked."
+ },
+ "breadth": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "No free source reachable; equal-weight and small-cap rows are partial proxies",
+  "public_note": "Not currently tracked."
+ },
+ "eqw": {
+  "reading": "RSP +13.2% vs SPY +16.9% (1-yr)",
+  "status": "watch",
+  "asOf": "2026-09-24",
+  "note": "Equal-weight is 5.9% below its 52-week high, cap-weight only 1.6% below",
+  "public_note": "Equal-weight is lagging the cap-weighted index."
+ },
+ "small": {
+  "reading": "IWM 7.7% below 52-wk high",
+  "status": "bear",
+  "asOf": "2026-09-24",
+  "note": "Small caps are not confirming the S&P, which is 1.6% from its high",
+  "public_note": "Small caps are further from their highs than the S&P 500."
+ },
+ "momentum": {
+  "reading": "Near record highs",
+  "status": "bull",
+  "asOf": "2026-09-23",
+  "note": "S&P about 7,700",
+  "public_note": "The index is near record highs."
+ },
+ "vix": {
+  "reading": "14.2",
+  "status": "watch",
+  "asOf": "2026-09-22",
+  "note": "Low: calm markets, cheap puts",
+  "public_note": "Implied volatility is low, a sign of calm or complacency."
+ },
+ "pc": {
+  "reading": "Equity 0.46 · total 0.86",
+  "status": "bear",
+  "asOf": "2026-09-24",
+  "note": "Equity put/call is low, meaning heavy call buying; index put/call 1.04",
+  "public_note": "Equity put/call is low, meaning heavy call buying."
+ },
+ "aaii": {
+  "reading": "32.7% bull · 48.1% bear",
+  "status": "bull",
+  "asOf": "2026-09-23",
+  "note": "Bears well above 31.5% average; contrarian positive",
+  "public_note": "Individual investors lean bearish, which is a contrarian positive."
+ },
+ "buybacks": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "S&P DJI quarterly buyback release not reachable",
+  "public_note": "Not currently tracked."
+ },
+ "retire": {
+  "reading": "Steady",
+  "status": "bull",
+  "asOf": "2026-09-24",
+  "note": "Structural automatic inflows",
+  "public_note": "Structural automatic inflows"
+ },
+ "foreign": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "Treasury TIC data not reachable",
+  "public_note": "Treasury TIC data not reachable"
+ },
+ "insider": {
+  "reading": "",
+  "status": "na",
+  "asOf": "2026-09-24",
+  "note": "Only individual trades available, no aggregate buy/sell ratio",
+  "public_note": "Not currently tracked."
+ },
+ "ipo": {
+  "reading": "238 YTD (2025: 347)",
+  "status": "bull",
+  "asOf": "2026-09-24",
+  "note": "Normal pace, nowhere near the 2021 frenzy of 1,035",
+  "public_note": "IPO activity is at a normal pace, far from the 2021 frenzy."
+ },
+ "midterm": {
+  "reading": "Oct–Jan window",
+  "status": "bull",
+  "asOf": "2026-09-24",
+  "note": "Historically one of the strongest stretches",
+  "public_note": "Historically one of the strongest stretches"
+ },
+ "season": {
+  "reading": "Sept–Oct",
+  "status": "watch",
+  "asOf": "2026-09-24",
+  "note": "Weak window now, strong Nov–Dec",
+  "public_note": "Weak window now, strong Nov–Dec"
+ },
+ "fiscal": {
+  "reading": "New Congress Jan 2027",
+  "status": "watch",
+  "asOf": "2026-09-24",
+  "note": "Check debt-limit timing and FY27 funding status",
+  "public_note": "Check debt-limit timing and FY27 funding status"
+ },
+ "geo": {
+  "reading": "Energy supply risk",
+  "status": "bear",
+  "asOf": "2026-09-24",
+  "note": "Oil near $100",
+  "public_note": "Oil near $100"
+ }
+}
