@@ -33,6 +33,7 @@
     return h < 48 ? `${h} hr ago` : fmtDate(iso);
   }
   const sign = (v, dp = 1) => (v == null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(dp));
+  const ordinal = (n) => { n = Math.round(n); const s = n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" }[n % 10] || "th"); return n + s; };
   const byId = (id) => (state.data ? state.data.indicators.find((x) => x.id === id) : null);
 
   function spark(hist, colorVar, w = 110, h = 34) {
@@ -112,7 +113,7 @@
   }
 
   const TICKS = [
-    ["t10", "US 10Y"], ["real", "10Y real"], ["curve", "2s10s"], ["fed", "Fed funds"], ["oil", "WTI"],
+    ["t10", "US 10Y"], ["real", "10Y real"], ["curve", "2s10s"], ["fed", "Fed funds"],
     ["infl", "US inflation"], ["claims", "Claims"], ["mdyoy", "Margin debt YoY"], ["usd", "USD broad"], ["nfci", "NFCI"],
   ];
   function renderLivebar() {
@@ -122,7 +123,7 @@
     const ageH = (Date.now() - new Date(state.data.generated).getTime()) / 3600000;
     const live = el("span", "live-dot" + (ageH > 30 ? " stale" : ""));
     live.appendChild(el("i"));
-    live.appendChild(document.createTextNode(ageH > 30 ? "Delayed" : "Live"));
+    live.appendChild(document.createTextNode(ageH > 30 ? "Delayed" : "Updated " + ago(state.data.generated)));
     live.title = "Data updated " + ago(state.data.generated);
     bar.appendChild(live);
     TICKS.forEach(([id, label]) => {
@@ -137,13 +138,16 @@
       t.appendChild(el("b", null, x.reading));
       bar.appendChild(t);
     });
-    const brent = state.data.markets && state.data.markets.energy && state.data.markets.energy.find((e) => e.key === "brent");
-    if (brent) {
-      const t = el("span", "tick");
-      t.appendChild(document.createTextNode("Brent"));
-      t.appendChild(el("b", null, "$" + brent.value.toFixed(2)));
-      if (brent.chg_1m != null) t.appendChild(el("span", brent.chg_1m > 0 ? "up" : brent.chg_1m < 0 ? "down" : "flat", sign(brent.chg_1m) + "% 1m"));
-      bar.appendChild(t);
+    const im = state.data.intermarket;
+    if (im && im.ratios) {
+      ["gold_silver", "copper_gold", "brent_wti", "crack"].forEach((k) => {
+        const r = im.ratios.find((x) => x.key === k);
+        if (!r) return;
+        const t = el("span", "tick");
+        t.appendChild(document.createTextNode(r.name));
+        t.appendChild(el("b", null, ordinal(r.pctile) + " pctile"));
+        bar.appendChild(t);
+      });
     }
   }
 
@@ -314,6 +318,62 @@
     });
     if (!list.length) box.appendChild(el("p", "meta", "Positioning data is unavailable right now."));
   }
+  function fmtRatio(r) {
+    if (r.value == null) return r.z5 == null ? "—" : `z ${r.z5 > 0 ? "+" : ""}${r.z5.toFixed(2)}`;
+    const v = r.value;
+    if (r.unit === "%") return (v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "%";
+    if (Math.abs(v) >= 100) return Math.round(v).toLocaleString();
+    return v.toFixed(2);
+  }
+  function ratioCard(r, onPick) {
+    const c = el("button", "ratio");
+    c.type = "button";
+    c.setAttribute("aria-pressed", "false");
+    c.dataset.key = r.key;
+    const top = el("div", "top");
+    top.appendChild(el("span", "grp", `${r.group} · ${r.freq}`));
+    top.appendChild(el("span", "tagchip" + (r.license === "restricted" ? " lic" : ""), r.tag));
+    c.appendChild(top);
+    c.appendChild(el("h3", null, r.name));
+    c.appendChild(el("div", "pair", r.pair + (r.unit === "×1000" ? " (×1000)" : "")));
+    const val = el("div", "val");
+    val.appendChild(el("b", null, fmtRatio(r)));
+    if (r.chg_3m != null) {
+      const pts = r.unit === "%";
+      val.appendChild(el("span", "muted", `${r.chg_3m > 0 ? "▲" : r.chg_3m < 0 ? "▼" : "•"} ${Math.abs(r.chg_3m).toFixed(1)}${pts ? " pts" : "%"} 3m`));
+    }
+    c.appendChild(val);
+    const g = el("div", "gauge");
+    g.setAttribute("role", "img");
+    g.setAttribute("aria-label", `${ordinal(r.pctile)} percentile of ${r.years} years`);
+    g.appendChild(el("div", "track"));
+    g.appendChild(el("div", "band"));
+    const m = el("div", "mark" + (r.pctile >= 90 || r.pctile <= 10 ? " ext" : ""));
+    m.style.left = Math.max(1, Math.min(99, r.pctile)) + "%";
+    g.appendChild(m);
+    c.appendChild(g);
+    const foot = el("div", "foot");
+    foot.appendChild(el("span", null, `${ordinal(r.pctile)} pctile · ${r.years}y`));
+    foot.appendChild(el("span", null, r.z5 == null ? "" : `z ${r.z5 > 0 ? "+" : ""}${r.z5.toFixed(2)} vs 5y`));
+    c.appendChild(foot);
+    c.appendChild(el("p", "read", r.read));
+    const f2 = el("div", "foot");
+    f2.appendChild(el("span", null, "As of " + (r.freq === "Monthly" ? new Date(r.asOf + "T12:00:00").toLocaleDateString(undefined, { month: "short", year: "numeric" }) : fmtDate(r.asOf))));
+    if (r.license === "restricted") f2.appendChild(el("span", null, "Level not shown (licensed input)"));
+    c.appendChild(f2);
+    c.addEventListener("click", () => onPick && onPick(r.key));
+    return c;
+  }
+  function renderRead(prefix) {
+    const im = state.data.intermarket;
+    if (!im || !im.read) return;
+    $(`#${prefix}-regime`).textContent = im.read.regime;
+    $(`#${prefix}-line`).textContent = im.read.line;
+    const ul = $(`#${prefix}-notes`);
+    ul.replaceChildren();
+    (im.read.notes || []).forEach((n) => ul.appendChild(el("li", null, n)));
+  }
+
   function renderHome() {
     const d = state.data;
     renderPulse();
@@ -321,11 +381,16 @@
     tiles.replaceChildren();
     HOME_TILES.map(byId).filter(Boolean).forEach((x) => tiles.appendChild(tile(x)));
     renderRegime($("#home-regime"));
-    const m = d.markets || {};
-    const et = $("#home-energy");
-    et.replaceChildren();
-    (m.energy || []).slice(0, 3).forEach((e) => et.appendChild(energyTile(e)));
-    posRows($("#home-pos"), (m.positioning || []), true);
+    const im = d.intermarket;
+    const hr = $("#home-ratios");
+    if (im && im.ratios && hr) {
+      renderRead("hr");
+      hr.replaceChildren();
+      ["copper_gold", "gold_silver", "gold_oil", "crack", "spx_gold", "brent_wti"].forEach((k) => {
+        const r = im.ratios.find((x) => x.key === k);
+        if (r) hr.appendChild(ratioCard(r, () => { location.href = ROOT + "commodities/#" + k; }));
+      });
+    }
     const live = d.indicators.filter((x) => x.mode === "auto").length;
     const sl = $("#st-live"); if (sl) sl.textContent = `${live} live series`;
     const su = $("#st-updated"); if (su) su.textContent = `Updated ${ago(d.generated)}`;
@@ -345,7 +410,7 @@
     r.appendChild(el("div", "stripe st-" + s));
     const a = el("div");
     const role = el("div", "role", ROLE[x.role] || "");
-    role.appendChild(el("span", "tag" + (x.mode === "auto" ? " live" : ""), x.mode === "auto" ? "Live" : "Analyst"));
+    role.appendChild(el("span", "tag" + (x.mode === "auto" ? " live" : ""), x.mode === "auto" ? "Auto" : "Analyst"));
     if (x.stale) role.appendChild(el("span", "tag stale", "Delayed"));
     a.appendChild(role);
     a.appendChild(el("div", "name", x.name));
@@ -486,45 +551,107 @@
   }
 
   // ------------------------------------------------------------------ commodities
-  let energyKey = "wti";
-  function renderEnergyChart() {
-    const list = (state.data.markets && state.data.markets.energy) || [];
-    const e = list.find((x) => x.key === energyKey) || list[0];
-    if (!e || !window.Chart) return;
-    if (state.charts.energy) state.charts.energy.destroy();
-    const labels = e.history.map((p) => new Date(p[0] + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric" }));
-    const fmtY = (v) => "$" + v.toFixed(2);
-    state.charts.energy = new Chart($("#energy-chart"), {
+  let ratioKey = (location.hash || "").replace("#", "") || "copper_gold";
+  function renderRatioChart() {
+    const im = state.data.intermarket;
+    if (!im || !window.Chart) return;
+    const r = im.ratios.find((x) => x.key === ratioKey) || im.ratios[0];
+    if (!r) return;
+    ratioKey = r.key;
+    $$("#im-tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.key === r.key)));
+    $$("#im-ratios .ratio").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.key === r.key)));
+    if (state.charts.ratio) state.charts.ratio.destroy();
+    const isZ = r.history_kind === "z";
+    const monthly = r.freq === "Monthly";
+    const labels = r.history.map((p) => new Date(p[0] + "T12:00:00").toLocaleDateString(undefined, monthly ? { month: "short", year: "numeric" } : { month: "short", day: "numeric", year: "2-digit" }));
+    const vals = r.history.map((p) => p[1]);
+    const fmtY = isZ ? (v) => (v > 0 ? "+" : "") + v.toFixed(1) : r.unit === "%" ? (v) => v.toFixed(1) + "%" : (v) => (Math.abs(v) >= 100 ? Math.round(v).toLocaleString() : v.toFixed(2));
+    const hiLo = isZ ? [2, -2] : [r.p90, r.p10];
+    const dash = { borderColor: tok("--faint"), borderWidth: 1, borderDash: [4, 4], pointRadius: 0, fill: false };
+    state.charts.ratio = new Chart($("#im-chart"), {
       type: "line",
-      data: { labels, datasets: [{ data: e.history.map((p) => p[1]), borderColor: tok("--accent"), backgroundColor: tok("--accent-soft"), fill: true, borderWidth: 1.8, pointRadius: 0, tension: 0.15 }] },
-      options: baseChartOptions(fmtY),
+      data: { labels, datasets: [
+        { data: vals, borderColor: tok("--accent"), backgroundColor: tok("--accent-soft"), fill: true, borderWidth: 1.8, pointRadius: 0, tension: 0.15 },
+        Object.assign({ data: vals.map(() => hiLo[0]) }, dash),
+        Object.assign({ data: vals.map(() => hiLo[1]) }, dash),
+      ] },
+      options: Object.assign(baseChartOptions(fmtY), { plugins: Object.assign(baseChartOptions(fmtY).plugins, { tooltip: Object.assign(baseChartOptions(fmtY).plugins.tooltip, { filter: (i) => i.datasetIndex === 0 }) }) }),
     });
-    $("#energy-caption").textContent = `${e.name}, ${e.unit}. Latest ${fmtY(e.value)} on ${fmtDate(e.asOf)}; ${sign(e.chg_1y)}% over one year. Source: ${e.source}.`;
+    $("#im-chart-title").textContent = r.name;
+    $("#im-chart-meta").textContent = `${r.pair} · ${r.freq.toLowerCase()} · as of ${fmtDate(r.asOf)}`;
+    $("#im-chart-caption").textContent = isZ
+      ? "Rolling 5-year z-score: how far the ratio sits from its own 5-year average, in standard deviations. Dashed lines mark ±2. Levels aren't shown because the ratio uses licensed index data."
+      : `Dashed lines mark the 10th and 90th percentiles of the past ${r.years} years. ${r.read}`;
+  }
+  function renderHeat() {
+    const im = state.data.intermarket;
+    const t = $("#im-heat");
+    if (!im || !im.correlations || !t) return;
+    const SHORTN = { "WTI": "WTI", "Nat gas": "Gas", "10Y yield": "10Y", "Real yield": "Real", "Breakeven": "BE", "US dollar": "USD", "S&P 500": "SPX" };
+    const { names, matrix } = im.correlations;
+    t.replaceChildren();
+    const thead = el("thead"), hr = el("tr");
+    hr.appendChild(el("th"));
+    names.forEach((n) => { const th = el("th", null, SHORTN[n] || n); th.title = n; hr.appendChild(th); });
+    thead.appendChild(hr);
+    t.appendChild(thead);
+    const tb = el("tbody");
+    const pos = tok("--bull"), neg = tok("--bear");
+    names.forEach((a, i) => {
+      const tr = el("tr");
+      tr.appendChild(el("th", null, a));
+      names.forEach((b, j) => {
+        const v = matrix[i][j];
+        const td = el("td", null, v == null ? "—" : i === j ? "·" : v.toFixed(2));
+        if (v != null && i !== j) {
+          const a2 = Math.min(1, Math.abs(v)) * 0.85;
+          td.style.background = `color-mix(in srgb, ${v >= 0 ? pos : neg} ${Math.round(a2 * 100)}%, var(--surface-2))`;
+        } else td.style.background = "var(--surface-2)";
+        td.title = `${a} vs ${b}: ${v == null ? "n/a" : v.toFixed(2)}`;
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    const L = $("#im-links");
+    L.replaceChildren();
+    (im.links || []).forEach((l) => {
+      const d = el("div", "link");
+      d.appendChild(el("b", null, l.label));
+      d.appendChild(el("span", "c", `${l.pair}: ${l.corr > 0 ? "+" : ""}${l.corr.toFixed(2)}`));
+      d.appendChild(el("span", null, l.read));
+      L.appendChild(d);
+    });
+    $("#im-corr-meta").textContent = `Correlation of daily changes, ${im.correlations.window}`;
   }
   function renderCommodities() {
-    const m = state.data.markets || {};
-    const tiles = $("#energy-tiles");
-    tiles.replaceChildren();
-    (m.energy || []).forEach((e) => tiles.appendChild(energyTile(e)));
-    const tabs = $("#energy-tabs");
-    tabs.replaceChildren();
-    (m.energy || []).forEach((e) => {
-      const b = el("button", null, e.name);
-      b.setAttribute("role", "tab");
-      b.setAttribute("aria-selected", String(e.key === energyKey));
-      b.addEventListener("click", () => {
-        energyKey = e.key;
-        $$("#energy-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
-        renderEnergyChart();
+    const im = state.data.intermarket;
+    if (im && im.ratios) {
+      renderRead("im");
+      const grid = $("#im-ratios");
+      grid.replaceChildren();
+      const pick = (k) => { ratioKey = k; renderRatioChart(); $("#im-chart-panel").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); };
+      im.ratios.forEach((r) => grid.appendChild(ratioCard(r, pick)));
+      const tabs = $("#im-tabs");
+      tabs.replaceChildren();
+      im.ratios.forEach((r) => {
+        const b = el("button", null, r.name);
+        b.setAttribute("role", "tab");
+        b.dataset.key = r.key;
+        b.addEventListener("click", () => { ratioKey = r.key; renderRatioChart(); });
+        tabs.appendChild(b);
       });
-      tabs.appendChild(b);
-    });
-    renderEnergyChart();
+      renderRatioChart();
+      renderHeat();
+    } else {
+      $("#im-ratios").replaceChildren(el("p", "meta", "Intermarket data is being prepared and will appear after the next update."));
+    }
+    const m = state.data.markets || {};
     posRows($("#pos-table"), m.positioning || [], false);
     const pa = (m.positioning || [])[0];
     if (pa) $("#pos-meta").textContent = `CFTC Disaggregated COT, futures only · positions as of ${fmtDate(pa.asOf)}`;
-    $("#cmd-updated").textContent = `Data updated ${ago(state.data.generated)}`;
-    window.addEventListener("load", renderEnergyChart, { once: true });
+    $("#im-updated").textContent = `Data updated ${ago(state.data.generated)} · energy, rates and equity relationships daily; metals and grains monthly`;
+    window.addEventListener("load", renderRatioChart, { once: true });
   }
 
   // ------------------------------------------------------------------ contact

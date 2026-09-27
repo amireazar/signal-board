@@ -134,8 +134,8 @@ def render(frag: Path):
 <meta property="og:description" content="{html.escape(meta['description'])}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canonical}">
-<meta name="theme-color" content="#080D14" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#F4F6F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080D14">
+<meta name="color-scheme" content="dark">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

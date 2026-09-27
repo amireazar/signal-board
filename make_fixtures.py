@@ -102,3 +102,31 @@ for code, (oi, net_end) in markets.items():
         net = net - random.gauss(0, oi * 0.01)
 (OUT / "cftc_disagg.json").write_text(json.dumps(dis))
 print("market fixtures written")
+
+# intermarket (synthetic)
+fred("DGASNYH", walk(3.551, 2600, 0.04, 1, floor=1))
+fred("DHOILNYH", walk(4.797, 2600, 0.05, 1, floor=1))
+fred("T10YIE", walk(2.34, 2600, 0.02, 1))
+fred("SP500", walk(7700, 2600, 45, 1, floor=1500))
+fred("DCOILWTICO", walk(96.41, 2600, 1.2, 1, floor=20))
+fred("DCOILBRENTEU", walk(99.8, 2600, 1.2, 1, floor=20))
+fred("DHHNGSP", walk(3.42, 2600, 0.08, 1, floor=1.2))
+fred("DGS10", walk(5.18, 2600, 0.04, 1, floor=0.5))
+fred("DFII10", walk(2.63, 2600, 0.03, 1))
+fred("DTWEXBGS", walk(119.5, 2600, 0.3, 1))
+def wb(end, months, step, floor):
+    vals = [end]
+    for _ in range(months - 1):
+        vals.append(max(floor, vals[-1] * (1 - random.gauss(0.004, step))))
+    vals.reverse()
+    out = []
+    for i, v in enumerate(vals):
+        m = 8 - (months - 1 - i)
+        y = 2026 + (m - 1) // 12
+        out.append([date(y, (m - 1) % 12 + 1, 1).isoformat(), round(v, 2)])
+    return out
+(OUT / "worldbank.json").write_text(json.dumps({
+    "gold": wb(3650, 300, 0.035, 250), "silver": wb(43.5, 300, 0.06, 4), "copper": wb(10150, 300, 0.05, 1400),
+    "platinum": wb(1420, 300, 0.05, 400), "maize": wb(205, 300, 0.05, 80), "soybeans": wb(440, 300, 0.045, 150),
+    "wti_m": wb(94, 300, 0.07, 15)}))
+print("intermarket fixtures written")

@@ -442,9 +442,9 @@
   {
    "id": "oil",
    "cat": "Earnings & economy",
-   "name": "Oil (WTI)",
+   "name": "Oil price momentum (WTI)",
    "role": "trigger",
-   "rule": "Bearish above $100 or up 30% in a year",
+   "rule": "Bearish when up more than 30% in a year; watch above 10%",
    "mode": "auto",
    "license": "public",
    "source": "US EIA via FRED (DCOILWTICO)",

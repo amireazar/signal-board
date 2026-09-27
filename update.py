@@ -25,6 +25,8 @@ from pathlib import Path
 
 import requests
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 ROOT = Path(__file__).resolve().parent.parent
 CFG = json.loads((ROOT / "config" / "indicators.json").read_text())
 MANUAL = json.loads((ROOT / "config" / "manual.json").read_text())
@@ -374,13 +376,22 @@ def calc_claims(ind):
 
 
 def calc_oil(ind):
-    obs = fred(ind["fred"])
+    """Scored on the size of the move, not the price level: no prices are published."""
+    obs = fred(ind["fred"], years=4)
     d, v = last(obs)
     p = value_at_or_before(obs, d - timedelta(days=365))
     ch = pct(v, p[1]) if p else 0
-    st = "bear" if (v > 100 or ch > 30) else ("watch" if (v > 85 or ch > 10) else "bull")
-    return dict(reading=f"${v:,.2f}", status=st, asOf=d.isoformat(),
-                note=f"{'+' if ch >= 0 else '−'}{abs(ch):.0f}% from a year earlier", history=history(obs))
+    p3 = value_at_or_before(obs, d - timedelta(days=91))
+    ch3 = pct(v, p3[1]) if p3 else 0
+    st = "bear" if ch > 30 else ("watch" if ch > 10 else "bull")
+    yoy = []
+    for dd, vv in obs:
+        pp = value_at_or_before(obs, dd - timedelta(days=365))
+        if pp and dd >= TODAY - timedelta(days=730):
+            yoy.append((dd, pct(vv, pp[1])))
+    return dict(reading=f"{'+' if ch >= 0 else '−'}{abs(ch):.0f}% YoY", status=st, asOf=d.isoformat(),
+                note=f"WTI spot, change over one year; {'+' if ch3 >= 0 else '−'}{abs(ch3):.0f}% over 3 months",
+                history=history(yoy))
 
 
 def calc_infl(ind):
@@ -609,20 +620,7 @@ def cftc_disagg() -> list[dict]:
 
 
 def markets():
-    energy = []
-    for key, name, series, unit in ENERGY:
-        try:
-            obs = fred(series, years=2)
-            d, v = obs[-1]
-
-            def chg(days):
-                p = value_at_or_before(obs, d - timedelta(days=days))
-                return round(pct(v, p[1]), 1) if p else None
-            energy.append(dict(key=key, name=name, unit=unit, value=round(v, 3), asOf=d.isoformat(),
-                               chg_1m=chg(30), chg_1y=chg(365), history=history(obs, years=1, max_points=180),
-                               source=f"US EIA via FRED ({series})"))
-        except Exception as e:
-            log(f"[energy {key}] failed: {e}")
+    energy = []  # energy prices are used inside the intermarket ratios only; no prices are published
     positioning = []
     try:
         rows = cftc_disagg()
@@ -652,7 +650,7 @@ def markets():
         log(f"[positioning] failed: {e}")
     if not energy and not positioning:
         raise RuntimeError("no market data")
-    return dict(energy=energy, positioning=positioning)
+    return dict(positioning=positioning)
 
 
 def main() -> int:
@@ -717,6 +715,15 @@ def main() -> int:
         log(f"markets failed: {e}")
         mkts = (prev or {}).get("markets")
 
+    try:
+        import intermarket
+        inter = intermarket.build(fred, http_get, _fixture("worldbank.json") if FIX else None, log)
+    except Exception as e:
+        log(f"intermarket failed: {e}")
+        if os.environ.get("AH_DEBUG"):
+            traceback.print_exc()
+        inter = (prev or {}).get("intermarket")
+
     counts = {k: sum(1 for x in out if x["status"] == k) for k in ("bear", "watch", "bull", "na")}
     payload = dict(
         site=CFG["site"]["name"],
@@ -727,6 +734,7 @@ def main() -> int:
         changes=changes,
         charts=charts,
         markets=mkts,
+        intermarket=inter,
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
