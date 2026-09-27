@@ -9,6 +9,7 @@ both at https://<user>.github.io/<repo>/ and at the custom domain.
 
 Run:  python tools/build_site.py
 """
+import hashlib
 import html
 import json
 import re
@@ -119,6 +120,7 @@ def render(frag: Path):
     title = meta["title"]
     full_title = f"{title} · {CFG['company']}" if meta.get("nav") != "home" else f"{CFG['company']} · {title}"
     canonical = CFG["url"].rstrip("/") + "/" + path
+    ver = lambda f: hashlib.md5((SITE / "assets" / f).read_bytes()).hexdigest()[:8]
     libs = ""
     if meta.get("charts"):
         libs = '<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>\n'
@@ -140,7 +142,7 @@ def render(frag: Path):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="{root}assets/site.css">
+<link rel="stylesheet" href="{root}assets/site.css?v={ver('site.css')}">
 </head>
 <body data-page="{meta['page']}" data-root="{root}">
 {header(root, meta.get('nav'))}
@@ -148,7 +150,7 @@ def render(frag: Path):
 {body.strip()}
 </main>
 {footer(root)}
-{libs}<script src="{root}assets/site.js" defer></script>
+{libs}<script src="{root}assets/site.js?v={ver('site.js')}" defer></script>
 </body>
 </html>
 """
