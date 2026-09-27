@@ -53,7 +53,7 @@
       </div>
       <div class="hero-meta" id="hero-meta">
         <span><b>56</b> indicators scored</span>
-        <span><b>8</b> futures markets tracked</span>
+        <span><b>9</b> intermarket ratios</span>
         <span><b>30 min</b> refresh cycle</span>
       </div>
     </div>
@@ -96,14 +96,17 @@
   <div class="container">
     <div class="section-head row">
       <div>
-        <p class="eyebrow">Commodity futures</p>
-        <h2 id="cmd-h">Energy prices and speculative positioning</h2>
-        <p style="margin-top:12px">Spot energy prices from the US Energy Information Administration, and managed-money positioning from the CFTC's weekly Commitments of Traders report.</p>
+        <p class="eyebrow">Intermarket</p>
+        <h2 id="cmd-h">What commodities are saying about the economy</h2>
+        <p style="margin-top:12px">Ratios between commodities, and between commodities and macro data, scored against their own history. Growth versus safety, supply versus demand.</p>
       </div>
-      <a class="btn small" href="./commodities/">Commodities dashboard</a>
+      <a class="btn small" href="./commodities/">All ratios and correlations</a>
     </div>
-    <div class="tiles" id="home-energy" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))"></div>
-    <div class="pos" id="home-pos" style="margin-top:20px"></div>
+    <div class="read-card" id="home-read">
+      <div class="read-regime"><span class="k">Cross-asset read</span><span class="v" id="hr-regime">—</span></div>
+      <div class="read-body"><p id="hr-line"></p><ul id="hr-notes"></ul></div>
+    </div>
+    <div class="ratio-grid" id="home-ratios" style="margin-top:20px"></div>
   </div>
 </section>
 

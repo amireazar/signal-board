@@ -1,34 +1,52 @@
-<!--{"path": "commodities/", "title": "Commodities", "description": "Live energy prices from the US EIA and weekly managed-money positioning across crude oil, natural gas, gold, silver, copper, corn, wheat and soybeans futures from the CFTC.", "nav": "commodities", "page": "commodities", "charts": true}-->
+<!--{"path": "commodities/", "title": "Intermarket", "description": "How commodities are moving against each other and against yields, inflation expectations, the dollar and equities: gold/silver, copper/gold, gold/oil, crack spreads, cross-asset correlations and futures positioning, with a rules-based reading of each.", "nav": "commodities", "page": "commodities", "charts": true}-->
 <section class="page-head">
   <div class="container">
-    <p class="crumbs">Live data · Commodities</p>
-    <h1>Commodity futures, prices and positioning</h1>
-    <p class="lead">Energy prices show what the physical market is paying. Positioning shows how far speculative money has already leaned one way. When positioning is stretched, prices tend to react more sharply to surprises.</p>
-    <p class="meta" id="cmd-updated">Loading the latest data…</p>
+    <p class="crumbs">Commodities · Intermarket</p>
+    <h1>What commodities are saying about the economy</h1>
+    <p class="lead">Prices on their own tell you little. The relationships do: gold against silver and copper, oil against gold and gas, refining margins, and how commodities move with yields, inflation expectations, the dollar and equities. Each ratio below is scored against its own history, with a plain-language reading.</p>
+    <p class="meta" id="im-updated">Loading the latest data…</p>
   </div>
 </section>
 
 <section class="section tight" style="padding-top:0;border-top:0">
   <div class="container" style="display:grid;gap:26px">
-    <div class="tiles" id="energy-tiles" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))"></div>
 
-    <div class="panel">
-      <div class="panel-h"><h2>Energy prices, past year</h2><span class="meta" id="energy-meta">US EIA via FRED</span></div>
-      <div class="tabs" role="tablist" aria-label="Energy series" id="energy-tabs"></div>
-      <div class="chart"><canvas id="energy-chart" role="img" aria-label="Energy price chart"></canvas></div>
-      <p class="meta" id="energy-caption"></p>
+    <div class="read-card" id="im-read" aria-live="polite">
+      <div class="read-regime"><span class="k">Cross-asset read</span><span class="v" id="im-regime">—</span></div>
+      <div class="read-body"><p id="im-line"></p><ul id="im-notes"></ul><p class="meta">Rules-based model read from the ratios and correlations on this page.</p></div>
+    </div>
+
+    <div>
+      <div class="panel-h" style="margin-bottom:14px"><h2 style="font-family:var(--serif);font-weight:500;font-size:28px">Ratios</h2><span class="meta">Percentile against each ratio's own history · 3-month change</span></div>
+      <div class="ratio-grid" id="im-ratios"></div>
+    </div>
+
+    <div class="panel" id="im-chart-panel">
+      <div class="panel-h"><h2 id="im-chart-title">Ratio history</h2><span class="meta" id="im-chart-meta"></span></div>
+      <div class="tabs" role="tablist" aria-label="Ratios" id="im-tabs"></div>
+      <div class="chart"><canvas id="im-chart" role="img" aria-label="Ratio history chart"></canvas></div>
+      <p class="meta" id="im-chart-caption"></p>
     </div>
 
     <div class="panel">
-      <div class="panel-h"><h2>Managed-money positioning</h2><span class="meta" id="pos-meta">CFTC Disaggregated Commitments of Traders, futures only</span></div>
-      <p class="meta" style="font-size:14px;max-width:78ch">Net long minus short positions held by managed money (hedge funds and commodity trading advisors), as a share of open interest. The percentile compares the latest week with the past three years: high readings mean crowded longs, low readings mean crowded shorts.</p>
+      <div class="panel-h"><h2>How markets are moving together</h2><span class="meta" id="im-corr-meta">Correlation of daily changes, past year</span></div>
+      <div class="corr-wrap">
+        <div class="heat-scroll"><table class="heat" id="im-heat" aria-label="Correlation matrix"></table></div>
+        <div class="links" id="im-links"></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--bull)"></i>Move together</span><span><i style="background:var(--surface-2);border:1px solid var(--line-2)"></i>Unrelated</span><span><i style="background:var(--bear)"></i>Move opposite</span></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-h"><h2>Speculative positioning</h2><span class="meta" id="pos-meta">CFTC Disaggregated Commitments of Traders, futures only</span></div>
+      <p class="meta" style="font-size:14px;max-width:78ch">Net long minus short positions held by managed money (hedge funds and commodity trading advisors), as a share of open interest, ranked against the past three years. Crowded positions tend to unwind sharply when the story changes.</p>
       <div class="pos" id="pos-table"></div>
     </div>
 
     <div class="grid g3">
-      <div class="card"><h3>Why positioning matters</h3><p>Crowded trades unwind fast. A market where speculators are already heavily long needs ever-better news to keep rising, and a small disappointment can trigger forced selling.</p></div>
-      <div class="card"><h3>How often it updates</h3><p>Daily spot prices post each evening, and weekly retail fuel prices on Mondays. The CFTC publishes positioning on Friday afternoons, covering positions as of the Tuesday before.</p></div>
-      <div class="card"><h3>More on the platform</h3><p>This page shows eight benchmark markets. Tell us which contracts you follow, and we'll show you how the platform covers them.</p><a class="more" href="{{root}}solutions/#platform">See the platform</a></div>
+      <div class="card"><h3>Why ratios, not prices</h3><p>A price mixes many forces at once. A ratio cancels out what two markets share, such as the dollar or general inflation, and isolates what differs between them: growth versus safety, supply versus demand.</p></div>
+      <div class="card"><h3>How often it updates</h3><p>Energy, rates, dollar and equity relationships update every business day. Metals and grains use the World Bank's monthly price series. Positioning is weekly, from the CFTC.</p></div>
+      <div class="card"><h3>Licensed inputs</h3><p>Ratios that use equity index data are shown as percentiles and z-scores only. We don't publish the underlying index or ratio levels.</p></div>
     </div>
   </div>
 </section>
